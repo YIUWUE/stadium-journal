@@ -1,6 +1,6 @@
 # 看台之外 · 主场星图
 
-第五版以可旋转的地球星图取代选场卡片。收录 24 座球场、13 座经过筛选的作者模型，以及 24 座独立的精细建筑重建。
+第六版以可旋转的地球星图取代选场卡片。收录 24 座球场、13 座经过筛选的作者模型，以及 24 座独立的精细建筑重建。
 
 ## 运行
 
@@ -8,9 +8,9 @@
 
 ## 星图探索
 
-拖拽地球旋转，滚轮或工具栏缩放；点击坐标进入球场展台。同城球队聚合为城市坐标，展开后选择具体主场。保留关键词、联赛、主题及收藏筛选和可使用键盘的坐标索引。点击主场时，地球镜头推进并切入模型展台；关闭后恢复之前的星图视角。支持触屏及减少动态效果偏好。
+放大的地球采用卫星地表影像、法线地貌、海洋高光和柔和大气边缘。取消引线与悬浮球队标签，在地球表面直接点亮 10 片地理区域。悬停显示区域名称，点击区域后展开该区域主场；旁边的区域按钮提供同样的键盘及触屏入口。拖拽旋转，滚轮或工具栏缩放。保留关键词、联赛、主题及收藏筛选和可使用键盘的坐标索引。点击主场时，地球镜头推进并切入模型展台；关闭后恢复之前的星图视角。支持触屏及减少动态效果偏好。
 
-地形来自 Natural Earth 公共领域地图数据；方位坐标用于探索示意，不用于导航。数据与本地 Three.js 打包，浏览器不必调用地图服务。
+地表影像来自 NASA Blue Marble（Reto Stöckli、Robert Simmon），经 Three.js 示例资源提供；法线及海洋高光贴图亦来自 Three.js 官方示例。区域轮廓来自 Natural Earth 公共领域地图数据；方位坐标用于探索示意，不用于导航。数据与本地 Three.js 打包，浏览器不必调用地图服务。
 
 ## 独立球场模型
 
@@ -30,8 +30,9 @@
 
 ## 文件
 
-- `dist/stadium-atlas.js`、`dist/atlas.css`：星图、城市聚合、坐标索引及飞入过渡。
-- `dist/assets/earth-land.json`：Natural Earth 轮廓数据。
+- `dist/stadium-atlas.js`、`dist/atlas.css`：地貌星图、发光区域、区域索引及飞入过渡。
+- `dist/assets/earth-land.json`、`earth-regions.json`：Natural Earth 示意轮廓；区域面使用包含主场的大陆部分。
+- `dist/assets/earth_*_2048.jpg`：本地地表、法线和海洋高光贴图，来源 `https://threejs.org/examples/textures/planets/`。
 - `dist/detailed-models.js`、`dist/detailed-viewer.js`：作者模型与高清纹理请求。
 - `dist/model-profiles.js`、`dist/stadium-viewer.js`：24 座精细建筑重建。
 - `dist/audio-tracks.js`、`dist/ambient.js`：音源和音频生命周期。

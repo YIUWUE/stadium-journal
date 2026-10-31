@@ -1,0 +1,8 @@
+# Region globe verification — 2026-11-01
+
+- Removed the leader-line SVG and floating team flags. Ten geographic surface regions use triangulated spherical geometry, soft gold fill and borders, with focus/hover state and a contextual caption.
+- Added local NASA Blue Marble day texture, Three.js normal/specular maps, camera-relative light, restrained ocean reflections and atmospheric rim. Initial desktop view is closer; mobile uses separate framing and resize adapts distance.
+- Browser: directly clicked the Germany region; active region became DEU and its two stadiums appeared. Keyboard selection of Britain kept focus and listed seven stadiums. Choosing Stamford Bridge opened its ready stadium-only model (20,849 representative seats) and audio reached volume 0.1000. Closing released model canvas, iframe and audio and retained the regional selection.
+- Phone check at 390×844: no horizontal overflow (clientWidth and scrollWidth both 375px including browser scrollbar), Netherlands button displayed the two correct stadiums. Searching London reduced the map to Britain and exactly three stadium entries; clear restored 24. Temporary viewport override reset.
+- npm check verifies all 24 stadiums, 10 region memberships, finite spherical geometry and raycast visibility from front/back, texture resources and syntax. No browser console errors/warnings observed.
+- NASA and Natural Earth attribution retained in the in-site credits and README. Region shapes are illustrative mainland silhouettes, not navigation or political boundary documentation. Existing models, music and collection data preserved.
