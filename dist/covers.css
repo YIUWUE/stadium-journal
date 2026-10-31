@@ -1,0 +1,39 @@
+/* Photographic covers: the whole frame is an accessible entry point. */
+.stadium-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:28px;perspective:1400px}
+.stadium-card.cover-card{--pointer-x:50%;--pointer-y:50%;position:relative;isolation:isolate;aspect-ratio:1.38;min-height:360px;border:1px solid #ffffff20;border-radius:12px;overflow:hidden;background:#10181c;transform:perspective(1200px) rotateX(var(--tilt-x,0deg)) rotateY(var(--tilt-y,0deg));transition:transform .38s cubic-bezier(.2,.7,.2,1),border-color .4s,box-shadow .4s;animation:cover-appear .65s both;animation-delay:calc(var(--i)*35ms)}
+.cover-art,.cover-shade,.cover-glare,.cover-open{position:absolute;inset:0}
+.cover-art{overflow:hidden;z-index:-3}
+.cover-art img{width:100%;height:100%;object-fit:cover;filter:saturate(.7) brightness(.83);transform:scale(1.025);transition:transform .8s cubic-bezier(.18,.7,.2,1),filter .65s}
+.cover-shade{z-index:-2;background:linear-gradient(180deg,#05101755 0%,transparent 26%,#040b1155 44%,#040b11dd 84%,#040b11fa 100%)}
+.cover-glare{z-index:3;pointer-events:none;background:radial-gradient(ellipse at var(--pointer-x) var(--pointer-y),#ffffff19,transparent 55%);opacity:0;transition:opacity .45s;mix-blend-mode:screen}
+.cover-top{position:absolute;top:24px;left:26px;right:78px;display:flex;align-items:center;gap:16px}
+.cover-location{font-size:11px;letter-spacing:.13em;color:#fff;text-shadow:0 1px 5px #000}
+.cover-number{font:500 14px 'Barlow Condensed',sans-serif;color:#ffffff9c;border-left:1px solid #ffffff66;padding-left:14px}
+.cover-content{position:absolute;left:30px;right:30px;bottom:67px;transform:translateY(57px);transition:transform .6s cubic-bezier(.2,.75,.2,1)}
+.cover-club{display:flex;gap:9px;align-items:center;font-size:11px;letter-spacing:.1em;color:#ffffffc9;margin:0 0 13px}
+.cover-club i{height:7px;width:7px;background:var(--club-color);border-radius:50%;box-shadow:0 0 15px var(--club-color)}
+.cover-content h3{font-size:clamp(25px,2.4vw,39px);font-weight:700;line-height:1.22;letter-spacing:-.04em;color:#fff;margin:0 0 8px;text-shadow:0 3px 18px #0004}
+.cover-en{font:500 13px 'Barlow Condensed',sans-serif;letter-spacing:.2em;color:#c4cecd;margin:0}
+.cover-reveal{opacity:0;transform:translateY(10px);transition:opacity .4s,transform .5s;max-height:76px;margin-top:18px;display:flex;align-items:end;gap:20px}
+.cover-reveal>p{font-size:12px;line-height:1.8;color:#bfcac8;margin:0;max-width:66%;flex:1}
+.cover-enter{font-size:11px;white-space:nowrap;display:flex;align-items:center;gap:10px;color:#d8fa84}
+.cover-enter>span{display:grid;place-items:center;border:1px solid #d8fa8455;border-radius:50%;font-size:20px;width:38px;height:38px;transition:background .4s,color .4s,transform .5s}
+.cover-bottom{position:absolute;left:30px;right:30px;bottom:21px;display:flex;align-items:center;justify-content:space-between;border-top:1px solid #ffffff26;padding-top:16px;font-size:10px;color:#aebdb9;letter-spacing:.1em}
+.cover-bottom i{font-style:normal;color:#ffffff33;margin:0 6px}
+.cover-status{font-family:'Barlow Condensed',sans-serif;font-size:11px;color:#d2ddd9;letter-spacing:.1em}.cover-status.is-explored{color:#d7ee93}
+.cover-open{z-index:4;width:100%;height:100%;border:0;background:transparent;cursor:pointer;border-radius:inherit}
+.cover-open:focus-visible{outline:2px solid #d8fa84;outline-offset:-6px}
+.cover-card .save-button{z-index:5;right:21px;top:18px;width:35px;height:35px;background:#0c172c4d;backdrop-filter:blur(8px);border:1px solid #ffffff52}
+.cover-card .save-button:hover,.cover-card .save-button.saved{background:#d7f78e;color:#101a14;border-color:#d7f78e}
+.cover-card:hover,.cover-card:focus-within{border-color:#c8ed8177;box-shadow:0 20px 55px #0005,0 0 32px #ccff9910}
+.cover-card:hover .cover-art img,.cover-card:focus-within .cover-art img{transform:translate(var(--parallax-x,0),var(--parallax-y,0)) scale(1.09);filter:saturate(1.06) brightness(.95)}
+.cover-card:hover .cover-glare,.cover-card:focus-within .cover-glare{opacity:1}
+.cover-card:hover .cover-content,.cover-card:focus-within .cover-content{transform:translateY(0)}
+.cover-card:hover .cover-reveal,.cover-card:focus-within .cover-reveal{opacity:1;transform:translateY(0)}
+.cover-card:hover .cover-enter>span,.cover-card:focus-within .cover-enter>span{background:#d8fa84;color:#0c1713;transform:rotate(7deg)}
+@keyframes cover-appear{from{opacity:0;translate:0 18px}to{opacity:1;translate:0 0}}
+.detailed-stage{position:absolute;inset:0;background:#122029}.authored-model{border:0;display:block;width:100%;height:100%;background:#122029}.model-viewport.is-authored{height:520px}.is-authored .model-corner-label,.is-authored .model-identity{display:none}.is-authored .exhibit-utilities{right:18px;bottom:auto;top:58px}.model-caption a{color:inherit;text-decoration:none;border-bottom:1px solid #ffffff40}.track-caption{max-width:53%;text-align:right;font-size:10px;line-height:1.6}.exhibit-mode{flex-shrink:0}.exhibit-mode button{white-space:nowrap}.model-actions button{font-size:12px}.model-actions [data-model-action="zoom-in"],.model-actions [data-model-action="zoom-out"]{font-size:22px}
+@media(hover:none){.cover-content{transform:none}.cover-reveal{opacity:1;transform:none}.cover-reveal>p{display:none}.cover-reveal{margin-top:13px;justify-content:flex-end}.cover-content{bottom:66px}.cover-enter>span{width:31px;height:31px}}
+@media(max-width:700px){.stadium-grid{grid-template-columns:1fr;gap:18px}.stadium-card.cover-card{aspect-ratio:1.02;min-height:340px}.cover-content{left:23px;right:23px}.cover-content h3{font-size:32px}.cover-top{left:23px}.cover-bottom{left:23px;right:23px}.cover-location{font-size:10px}.cover-en{font-size:11px}}
+@media(max-width:700px){.model-viewport.is-authored{height:440px}.model-caption{align-items:flex-start;gap:7px}.track-caption{max-width:100%;text-align:left;overflow-wrap:anywhere}.exhibit-mode{width:100%;justify-content:flex-start}.exhibit-mode button{padding:9px 13px}.model-actions{flex-wrap:wrap;max-width:210px;justify-content:flex-end}.model-identity p{max-width:210px}.is-authored .exhibit-utilities{top:53px;right:12px}}
+@media(prefers-reduced-motion:reduce){.stadium-card.cover-card{animation:none;transform:none!important}.cover-card *{transition:none!important}.cover-art img{transform:none!important}.cover-content{transform:none}.cover-reveal{opacity:1;transform:none}}

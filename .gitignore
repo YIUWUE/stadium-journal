@@ -1,4 +1,5 @@
 node_modules/
+research/
 *.tar.gz
 *.tar
 docs/contact-sheet.jpg
