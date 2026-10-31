@@ -1,0 +1,28 @@
+// Architectural silhouettes are illustrative, not surveyed building geometry.
+const p=(shape,roof,facade,colors,feature,extra={})=>({shape,roof,facade,colors,feature,tiers:3,...extra});
+export const modelProfiles={
+ bernabeu:p('rounded','ring','silver',['#4779bc','#9cb6d2'],'流线金属外壳 · 多层看台',{n:3.5,tiers:4}),
+ campnou:p('oval','open','concrete',['#842d4c','#305bac'],'经典开放碗形 · 红蓝看台',{n:2.5,tiers:4}),
+ anfield:p('rectangle','four','brick',['#ce343c','#e3dbca'],'英式四面看台 · 红砖外墙',{n:5,asymmetric:true}),
+ allianz:p('rounded','ring','cushion',['#cd363b','#d74045'],'菱格气垫外立面 · 红色光环',{n:3.3}),
+ sansiro:p('rectangle','steel','towers',['#c84f40','#57a983'],'螺旋塔楼 · 红色屋架',{n:4.4}),
+ oldtrafford:p('rectangle','four','brick',['#cc3d46','#dedbd1'],'红色看台 · 分段钢架屋顶',{n:5,asymmetric:true}),
+ dortmund:p('rectangle','four','pylons',['#e7c82b','#3d4140'],'八根黄色支撑塔 · 黄黑南看台',{n:4.8}),
+ paris:p('oval','ring','ribs',['#2864a9','#d34c4f'],'混凝土肋骨 · 椭圆轮廓',{n:2.7}),
+ emirates:p('oval','ring','glass',['#d64044','#dbd8d2'],'起伏屋顶 · 连续红色座席',{n:2.9}),
+ juventus:p('rectangle','four','juve',['#dddcd5','#343c40'],'黑白看台 · 端部斜撑',{n:4.7,tiers:2}),
+ etihad:p('oval','ring','masts',['#77bada','#d9e4e4'],'天空蓝看台 · 屋顶支撑桅杆',{n:2.9}),
+ tottenham:p('rounded','wave','glass',['#3b4d70','#bdc8dc'],'玻璃外壳 · 连续大屋顶',{n:3.6,tiers:4}),
+ stamfordbridge:p('rectangle','four','brick',['#2d65b9','#e4dbd0'],'紧凑蓝色看台 · 城市街区主场',{n:5,asymmetric:true,tiers:2}),
+ metropolitano:p('oval','wave','ribs',['#ce464a','#e9d4c2'],'悬浮碟形屋顶 · 红白看台',{n:2.8}),
+ dragao:p('oval','sides','glass',['#5b92cf','#d7e4e8'],'开放端部 · 轻盈双侧屋顶',{n:3.1,tiers:2}),
+ luz:p('oval','ring','arches',['#d64949','#e3d5c9'],'红色拱架 · 开阔屋顶轮廓',{n:2.8}),
+ galatasaray:p('oval','ring','glass',['#d64b3a','#ebba44'],'红金座席 · 环形覆盖屋顶',{n:3.2}),
+ cruyff:p('oval','ring','arches',['#d64a52','#e1d8c7'],'跨越式屋顶骨架 · 红白看台',{n:3.0}),
+ feyenoord:p('oval','ring','ribs',['#ce4a4d','#e3e6d9'],'双层椭圆看台 · 纤细支撑柱',{n:2.5,tiers:2}),
+ celtic:p('rectangle','four','brick',['#3f9e6c','#e2e6d8'],'绿白看台 · 四面看台布局',{n:5,asymmetric:true}),
+ bombonera:p('rectangle','open','boca',['#ddbf35','#3266ab'],'陡峭三面看台 · 高耸盒形侧楼',{n:5,tiers:3}),
+ monumental:p('oval','open','concrete',['#d7444b','#ddd9d0'],'宽阔红白巨碗 · 南美看台',{n:2.5,tiers:4}),
+ maracana:p('oval','ring','ribs',['#74b4cc','#d4cb67'],'圆润巨碗 · 环形轻质屋顶',{n:2.1,tiers:3}),
+ napoli:p('oval','ring','concrete',['#4b9dc8','#d2e0d7'],'椭圆碗体 · 蓝色跑道',{n:2.3,track:true,tiers:3}),
+};
