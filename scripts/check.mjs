@@ -4,10 +4,12 @@ import { stadiums, countries } from '../dist/catalog.js';
 import { tracks } from '../dist/ambient.js';
 import { modelProfiles } from '../dist/model-profiles.js';
 import { detailedModels } from '../dist/detailed-models.js';
+import { groundPositions } from '../dist/stadium-atlas.js';
 for (const file of readdirSync('dist').filter(file => file.endsWith('.js'))) {
   const result = spawnSync(process.execPath, ['--check', `dist/${file}`], { encoding: 'utf8', windowsHide: true });
   if (result.status !== 0) throw new Error(result.stderr || `Syntax check failed: ${file}`);
 }
+if(!existsSync('dist/assets/earth-land.json')||!existsSync('dist/atlas.css')) throw new Error('Missing globe resources');
 const credits = JSON.parse(readFileSync('dist/assets/credits.json', 'utf8'));
 for (const file of ['three.module.js', 'three.core.js', 'OrbitControls.js', 'LICENSE']) {
   if (!existsSync(`dist/vendor/three/${file}`)) throw new Error(`Missing local 3D dependency: ${file}`);
@@ -23,8 +25,10 @@ for (const s of stadiums) {
   if (track.src && (new URL(track.src).protocol!=='https:' || !/\.(mp3|m4a)(?:\?|$)/.test(track.src))) throw new Error(`Invalid pure-audio source: ${s.id}`);
   const model=detailedModels[s.id];
   if(model && (!model.author || !model.uid || !model.faces || new URL(model.embed).hostname!=='sketchfab.com')) throw new Error(`Invalid authored model metadata: ${s.id}`);
+  const position=groundPositions[s.id];
+  if(!position||position.length!==2||!position.every(Number.isFinite)||Math.abs(position[0])>90||Math.abs(position[1])>180) throw new Error(`Invalid atlas coordinate: ${s.id}`);
   if (!modelProfiles[s.id]?.feature) throw new Error(`Missing model profile: ${s.id}`);
   if (!s.story?.length || !s.beginner || !s.moods?.length) throw new Error(`Incomplete stadium content: ${s.id}`);
   if (new URL(s.source).protocol !== 'https:') throw new Error(`Invalid reference URL: ${s.id}`);
 }
-console.log(`Checks passed: ${stadiums.length} stadiums, ${countries.length} countries, ${Object.keys(tracks).length} audio records, ${Object.keys(detailedModels).length} authored models and 24 local architectural profiles.`);
+console.log(`Checks passed: ${stadiums.length} stadiums, ${countries.length} countries, ${Object.keys(tracks).length} audio records, ${Object.keys(detailedModels).length} authored models, 24 atlas positions and detailed architectural profiles.`);
