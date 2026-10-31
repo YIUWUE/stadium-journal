@@ -4,6 +4,7 @@ import { stadiums, countries } from '../dist/catalog.js';
 import { tracks } from '../dist/ambient.js';
 import { modelProfiles } from '../dist/model-profiles.js';
 import { detailedModels } from '../dist/detailed-models.js';
+import {groupCities,fitProjection,countryMapMarkup} from '../dist/country-atlas.js';
 import * as THREE from '../dist/vendor/three/three.module.js';
 import { groundPositions, atlasRegions, regionGeometry } from '../dist/stadium-atlas.js';
 for (const file of readdirSync('dist').filter(file => file.endsWith('.js'))) {
@@ -53,3 +54,20 @@ for(const info of atlasRegions){
 for(const s of stadiums)if(atlasRegions.filter(r=>r.countries.includes(s.country)).length!==1)throw Error('Ambiguous region '+s.id);
 for(const file of ['earth_atmos_2048.jpg','earth_normal_2048.jpg','earth_specular_2048.jpg'])if(!existsSync('dist/assets/'+file))throw Error('Missing relief texture '+file);
 console.log('Regional geometry, front/back hit detection, 24-stadium membership and relief assets passed.');
+
+for(const region of atlasRegions){
+ const members=stadiums.filter(s=>region.countries.includes(s.country)),cities=groupCities(members,groundPositions),data=regions.find(r=>r.id===region.id);
+ if(cities.reduce((n,c)=>n+c.members.length,0)!==members.length)throw Error('Missing city membership '+region.id);
+ for(const width of [335,800]){
+  const html=countryMapMarkup(region,data,members,groundPositions,width);
+  if(/NaN|Infinity|undefined/.test(html))throw Error('Invalid city map projection '+region.id);
+  for(const city of cities)if(!html.includes(`data-city-light="${city.name}"`))throw Error('Missing automatic city '+city.name);
+  for(const stadium of members)if(!html.includes(`data-atlas-open="${stadium.id}"`))throw Error('Missing direct map entry '+stadium.id);
+ }
+}
+const madrid=groupCities(stadiums.filter(s=>s.city==='马德里'),groundPositions)[0];
+if(madrid.members.length!==2)throw Error('Madrid should expose both stadiums');
+const project=fitProjection(madrid.members.map(s=>groundPositions[s.id]),260,112,20).project;
+const bernabeu=project(groundPositions.bernabeu),metropolitano=project(groundPositions.metropolitano);
+if(!(bernabeu[0]<metropolitano[0]&&bernabeu[1]<metropolitano[1]))throw Error('Madrid stadium orientation incorrect');
+console.log('Country-to-city maps, all direct stadium entries, mobile projections and Madrid stadium separation passed.');

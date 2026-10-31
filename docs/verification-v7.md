@@ -1,0 +1,9 @@
+# Country and city atlas verification — 2026-11-01
+
+- Selecting Spain starts a globe approach, then automatically opens the country atlas. Madrid and Barcelona are immediately present without a city-selection click. The Madrid inset exposes both stadiums at distinct north-up coordinates: Bernabeu is west and slightly north of Metropolitano.
+- Browser activated the Metropolitano map pin directly; its stadium-only reconstruction became ready. Closing returned to the same Spain map, with two city lights, no model canvas and no audio element remaining.
+- Britain automatically exposes four cities and two local insets (Manchester and London). Rapid Germany→Spain selection ended on Spain without a stale timer overwriting it.
+- Phone viewport 390×844: clientWidth equals scrollWidth (375px after scrollbar), Spain retains two city lights and both Madrid pins. Country-level Barcelona search reduces the view to one city and no Madrid inset; clear restores it. Back-to-earth returns to the globe and 24 entries. Temporary viewport reset.
+- npm run check passes syntax, catalog/resources, all regional spherical geometry and ray visibility, all ten country/city layouts at 335px and 800px, every direct stadium entry and Madrid's west/east and north/south ordering.
+- Transition contents are inert until arrival; covered globe controls are hidden from navigation. Reduced-motion skips travel delay and CSS reveals. Closing a model retains the country map; the hidden globe is paused while viewing the country.
+- Maps use existing Natural Earth silhouettes and approximate stadium coordinates, not invented streets. Local inset scale and positions are illustrative. Madrid source context: Real Madrid official contact lists Avenida Concha Espina; Atletico's official stadium visit page lists Avenida Luis Aragonés. Existing coordinates retained.
