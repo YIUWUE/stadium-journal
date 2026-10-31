@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#f7f6f2">
+  <meta name="description" content="有些热爱，有自己的主场。用实景影像与中文故事，探索五大联赛的传奇球场。">
+  <title>看台之外 — 球场影像志</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="preload" as="image" href="assets/anfield.jpg">
+</head>
+<body>
+  <a class="skip-link" href="#explore">跳至球场探索</a>
+  <header class="header">
+    <a class="brand" href="#" aria-label="看台之外首页"><span class="brand-mark"><svg viewBox="0 0 40 40" fill="none" aria-hidden="true"><rect x="5" y="9" width="30" height="22" rx="3"/><path d="M20 9v22M5 15h6v10H5m30-10h-6v10h6"/><circle cx="20" cy="20" r="5"/></svg></span><span>看台之外<small>BEYOND THE STANDS</small></span></a>
+    <nav aria-label="主导航"><a href="#explore" class="nav-explore">探索球场</a><a href="#stories">球场故事</a><button class="nav-saved" id="nav-saved">我的收藏 <span id="saved-count">0</span></button></nav>
+    <a class="header-cta" href="#explore">去看台看看 <span aria-hidden="true">↗</span></a>
+  </header>
+  <main>
+    <section class="hero wrap" aria-labelledby="hero-title">
+      <div class="hero-intro">
+        <div><p class="eyebrow"><span class="live-dot"></span> THE BEAUTIFUL GAME. THE ICONIC GROUNDS.</p><h1 id="hero-title">有些热爱，<br>有自己的<span class="red">主场。</span></h1></div>
+        <div class="hero-copy"><span class="small-line">一座球场，不止九十分钟。</span><p>从安菲尔德的歌声，到圣西罗的灯光。<br>走进传奇俱乐部的主场，读懂看台背后的<br class="desktop-br">城市、建筑，以及代代相传的热爱。</p><a href="#explore" class="text-link">找到你的下一座主场 <span>↗</span></a></div>
+      </div>
+      <div class="hero-photo" role="group" aria-label="本期封面：安菲尔德球场">
+        <img src="assets/anfield.jpg" alt="从主看台眺望安菲尔德，红色座席环绕着绿色球场" fetchpriority="high" width="1920" height="887">
+        <div class="photo-top"><span class="cover-label"><span class="live-dot"></span> 本期封面 · THE COVER</span><span class="location-label">↗ 英格兰 · 利物浦</span></div>
+        <div class="hero-caption"><div><span class="hero-en">THIS IS ANFIELD.</span><h2>这里，是安菲尔德。</h2><p>利物浦足球俱乐部 <span>·</span> 自 1892 年起的家</p></div><button class="round-arrow" data-open="anfield" aria-label="阅读安菲尔德球场故事">↗</button></div>
+        <div class="photo-bottom"><span>01 / 10 &nbsp; 一座城市的红色心跳</span><span>历史影像 · 2019</span></div>
+      </div>
+      <div class="hero-foot"><span>献给每一个，向往现场的你。</span><div><span><b>10</b> 座传奇球场</span><span><b>05</b> 个足球国度</span><span class="scroll-hint">向下探索 <span>↓</span></span></div></div>
+    </section>
+
+    <section id="explore" class="explore wrap" aria-labelledby="explore-title">
+      <div class="section-heading"><div><p class="eyebrow red">01 / THE COLLECTION</p><h2 id="explore-title">世界很大，<span class="lighter">主场很多。</span></h2></div><p class="section-description">那些在屏幕里见过无数次的地方，<br>值得你再靠近一点。</p></div>
+      <div class="explore-tools"><div class="filters" role="group" aria-label="按联赛筛选"><button class="filter active" data-league="all" aria-pressed="true">全部球场 <span>10</span></button><button class="filter" data-league="英超" aria-pressed="false">英超</button><button class="filter" data-league="西甲" aria-pressed="false">西甲</button><button class="filter" data-league="德甲" aria-pressed="false">德甲</button><button class="filter" data-league="意甲" aria-pressed="false">意甲</button><button class="filter" data-league="法甲" aria-pressed="false">法甲</button></div><label class="search-box"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 5 5"/></svg><input id="search" type="search" placeholder="搜索球场、俱乐部或城市" aria-label="搜索球场、俱乐部或城市"></label></div>
+      <div class="results-meta"><span id="results-count" aria-live="polite">共 10 座球场，等待你的到访</span><button class="saved-toggle" id="saved-toggle" aria-pressed="false"><span class="heart-icon" aria-hidden="true">♡</span> 只看收藏</button></div>
+      <div id="stadium-grid" class="stadium-grid"></div>
+      <div class="empty-state" id="empty-state" hidden><span>⌕</span><h3>暂时没有找到这座主场</h3><p>换个关键词，或去其他联赛看看。</p><button class="button navy" id="reset-filters">查看全部球场 ↗</button></div>
+      <div class="load-more" id="load-more-wrap"><button class="button outline" id="load-more">继续探索更多球场 <span>↓</span></button><span>还有 4 座主场，等你发现</span></div>
+    </section>
+
+    <section id="stories" class="stories" aria-labelledby="stories-title"><div class="wrap">
+      <div class="section-heading"><div><p class="eyebrow">02 / BEHIND THE STANDS</p><h2 id="stories-title">看台会说话，<br><span>你愿意听吗？</span></h2></div><p class="section-description">钢铁与混凝土之外，<br>是足球最动人的部分。</p></div>
+      <div class="story-layout"><div class="story-image"><img id="story-img" src="assets/dortmund.jpg" alt="多特蒙德的威斯特法伦球场" loading="lazy" width="1440" height="700"><span id="story-image-label">DORTMUND, GERMANY</span></div><div class="story-editorial"><p class="eyebrow red" id="story-kicker">球迷文化 / FAN CULTURE</p><h3 id="story-title">一面黄墙，<br>一座城的信仰。</h3><p id="story-description">比赛还没开始，南看台已先声夺人。在多特蒙德，黄黑色不只是球衣的颜色，也是这座城市共同的语言。</p><button class="text-link" id="story-read" data-open="dortmund">走近威斯特法伦 <span>↗</span></button><div class="story-tabs" role="group" aria-label="切换球场故事"><button class="story-tab active" data-story="0" aria-pressed="true"><span>01</span> 看台的声音</button><button class="story-tab" data-story="1" aria-pressed="false"><span>02</span> 建筑的表情</button><button class="story-tab" data-story="2" aria-pressed="false"><span>03</span> 城市的记忆</button></div></div></div>
+    </div></section>
+
+    <section class="closing wrap"><div><p class="eyebrow red">THE JOURNEY CONTINUES</p><h2>下一站，<span class="lighter">你的主场。</span></h2><p>总有一座球场，让你想亲自坐上看台。</p></div><button class="button coral" id="random-stadium">随机邂逅一座球场 <span>↗</span></button></section>
+  </main>
+  <footer class="footer wrap"><div class="footer-top"><a class="brand" href="#"><span class="brand-mark"><svg viewBox="0 0 40 40" fill="none" aria-hidden="true"><rect x="5" y="9" width="30" height="22" rx="3"/><path d="M20 9v22M5 15h6v10H5m30-10h-6v10h6"/><circle cx="20" cy="20" r="5"/></svg></span><span>看台之外<small>BEYOND THE STANDS</small></span></a><p>关于足球，也关于我们为什么热爱足球。</p><a href="#" class="back-top">回到顶部 ↑</a></div><div class="footer-bottom"><span>© 2026 看台之外 · 球场影像志</span><span>独立球迷展示项目 · 非俱乐部官方网站</span><button id="credits-button">图片致谢与资料来源 ↗</button></div></footer>
+  <dialog id="stadium-dialog" aria-labelledby="detail-title"><button class="dialog-close" id="close-dialog" aria-label="关闭详情">✕</button><div id="dialog-content"></div></dialog>
+  <dialog id="credits-dialog" aria-labelledby="credits-title"><button class="dialog-close" id="close-credits" aria-label="关闭图片致谢">✕</button><div class="credits-content"><p class="eyebrow red">CREDITS & SOURCES</p><h2 id="credits-title">影像与资料，皆有来处。</h2><p>球场图片来自 Wikimedia Commons，均为真实场地的历史影像，可能与最新面貌不同。以下保留摄影者、原始文件和许可；展示时仅调整画面裁切与亮度。球场历史介绍参考俱乐部或场馆官方资料。</p><div id="credits-list"></div></div></dialog>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script type="module" src="app.js"></script>
+</body>
+</html>
