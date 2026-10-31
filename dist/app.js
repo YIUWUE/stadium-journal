@@ -1,127 +1,80 @@
-import { stadiums, stories } from './data.js';
-
-const $ = selector => document.querySelector(selector);
-const heart = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.7 4.8a5.6 5.6 0 0 0-7.9 0l-.8.8-.8-.8a5.6 5.6 0 0 0-7.9 7.9L12 21l8.7-8.3a5.6 5.6 0 0 0 0-7.9Z"/></svg>';
-const pin = '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M13 6c0 4-5 8-5 8S3 10 3 6a5 5 0 0 1 10 0Z"/><circle cx="8" cy="6" r="1.6"/></svg>';
-const key = 'beyond-the-stands:favorites:v1';
-let saved = new Set();
-try { const value = JSON.parse(localStorage.getItem(key) || '[]'); if (Array.isArray(value)) saved = new Set(value.filter(id => stadiums.some(s => s.id === id))); } catch { /* Storage can be disabled by the browser. */ }
-let league = 'all', query = '', onlySaved = false, limit = 6, currentId = null, toastTimer;
-let credits = {};
-
-function toast(message) {
-  $('#toast').textContent = message;
-  $('#toast').classList.add('visible');
-  clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => $('#toast').classList.remove('visible'), 2400);
-}
-
-function toggleSaved(id) {
-  const wasSaved = saved.has(id);
-  wasSaved ? saved.delete(id) : saved.add(id);
-  try { localStorage.setItem(key, JSON.stringify([...saved])); } catch { toast('已更新本次收藏；浏览器暂不支持保存到本机。'); render(); syncDetailSave(); return; }
-  toast(wasSaved ? '已从收藏中移除' : '已加入收藏，下次再来仍能找到');
-  render();
-  syncDetailSave();
-}
-
-function syncDetailSave() {
-  const button = $('#detail-save');
-  if (!button || !currentId) return;
-  button.classList.toggle('saved', saved.has(currentId));
-  button.setAttribute('aria-pressed', String(saved.has(currentId)));
-  button.textContent = saved.has(currentId) ? '♥ 已收藏' : '♡ 收藏球场';
-}
-
-function card(s, index) {
-  return `<article class="stadium-card" style="--club-color:${s.color}">
-    <div class="card-picture"><button class="card-open" data-open="${s.id}" aria-label="探索${s.name}"><img src="assets/${s.id}.jpg" alt="${s.name}实景历史影像" width="720" height="474" loading="lazy"></button><span class="league-tag">${s.league} · ${s.tag}</span><button class="save-button ${saved.has(s.id) ? 'saved' : ''}" data-save="${s.id}" aria-label="${saved.has(s.id) ? '取消收藏' : '收藏'}${s.name}" aria-pressed="${saved.has(s.id)}">${heart}</button><span class="photo-index">${String(index + 1).padStart(2,'0')} / ${String(stadiums.length).padStart(2,'0')}</span></div>
-    <div class="card-info"><p class="card-location">${pin}${s.country} · ${s.city}</p><div class="card-title-row"><h3><button class="card-title" data-open="${s.id}">${s.name}</button></h3><button class="card-arrow" data-open="${s.id}" aria-label="阅读${s.name}详情">↗</button></div><p class="card-en">${s.en}</p><p class="card-description">${s.description}</p><div class="card-footer"><span><i class="club-dot"></i>${s.club}</span><span class="card-year">EST. ${s.year}</span></div></div></article>`;
-}
-
-function render() {
-  const q = query.trim().toLocaleLowerCase();
-  const filtered = stadiums.filter(s => (league === 'all' || s.league === league) && (!onlySaved || saved.has(s.id)) && (!q || [s.name,s.en,s.club,s.clubEn,s.city,s.country,s.league].join(' ').toLocaleLowerCase().includes(q)));
-  $('#stadium-grid').innerHTML = filtered.slice(0,limit).map(s => card(s, stadiums.indexOf(s))).join('');
-  $('#results-count').textContent = onlySaved ? `你的收藏 · ${filtered.length} 座球场` : `共 ${filtered.length} 座球场，等待你的到访`;
-  $('#saved-count').textContent = saved.size;
-  $('#empty-state').hidden = filtered.length !== 0;
-  $('#empty-state h3').textContent = onlySaved && !saved.size ? '把喜欢的主场，留在这里' : '暂时没有找到这座主场';
-  $('#empty-state p').textContent = onlySaved && !saved.size ? '点击球场图片右上角的爱心，建立你的主场清单。' : '换个关键词，或去其他联赛看看。';
-  $('#load-more-wrap').hidden = filtered.length <= limit;
-  $('#load-more-wrap>span').textContent = `还有 ${Math.max(0,filtered.length-limit)} 座主场，等你发现`;
-  $('#saved-toggle').setAttribute('aria-pressed', String(onlySaved));
-  $('#saved-toggle .heart-icon').textContent = onlySaved ? '♥' : '♡';
-  document.querySelectorAll('[data-league]').forEach(button => {
-    const active = button.dataset.league === league;
-    button.classList.toggle('active', active);
-    button.setAttribute('aria-pressed', String(active));
-  });
-}
-
-function resetFilters() {
-  league = 'all'; query = ''; onlySaved = false; limit = 6;
-  $('#search').value = '';
-  render();
-}
-
-function openStadium(id) {
-  const s = stadiums.find(item => item.id === id);
-  if (!s) return;
-  currentId = id;
-  $('#dialog-content').innerHTML = `<div class="detail-hero"><img src="assets/${s.id}.jpg" alt="${s.name}历史实景" width="1440" height="700"></div><div class="detail-body"><p class="eyebrow red">${s.league} / ${s.highlight}</p><div class="detail-heading"><div><h2 id="detail-title">${s.name}</h2><p class="detail-en">${s.en}</p></div><button class="detail-save" id="detail-save" data-save="${s.id}"></button></div><dl class="detail-facts"><div><dt>所在城市</dt><dd>${s.country} · ${s.city}</dd></div><div><dt>代表俱乐部</dt><dd>${s.club}</dd></div><div><dt>${s.id==='paris' ? '现有场馆启用' : '球场启用'}</dt><dd>${s.year} 年</dd></div></dl><div class="detail-story">${s.story.map(p=>`<p>${p}</p>`).join('')}</div><blockquote class="detail-quote">${s.quote}</blockquote><div class="detail-note">影像与资料说明：${s.note}</div><div class="detail-links"><a href="${s.source}" target="_blank" rel="noopener noreferrer">${s.sourceLabel} ↗</a>${credits[id] ? `<a href="${credits[id].source}" target="_blank" rel="noopener noreferrer">图片来源与许可 ↗</a>` : ''}</div></div>`;
-  syncDetailSave();
-  const dialog = $('#stadium-dialog');
-  if (!dialog.open) dialog.showModal();
-  dialog.scrollTop = 0;
-  $('#close-dialog').focus({preventScroll:true});
-}
-
-document.addEventListener('click', event => {
-  const open = event.target.closest('[data-open]');
-  if (open) openStadium(open.dataset.open);
-  const save = event.target.closest('[data-save]');
-  if (save) toggleSaved(save.dataset.save);
-  const filter = event.target.closest('[data-league]');
-  if (filter) { league = filter.dataset.league; limit = 6; render(); }
+import {stadiums,countries,moodNames} from './catalog.js';
+import {tracks,MatchdayAudio} from './music.js';
+import {setupQuiz} from './quiz.js';
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+const ids=new Set(stadiums.map(s=>s.id));
+const favoriteKey='beyond-the-stands:favorites:v1',seenKey='beyond-the-stands:explored:v2',soundKey='beyond-the-stands:audio:v2';
+function readStorage(key,fallback){try{return JSON.parse(localStorage.getItem(key))??fallback;}catch{return fallback;}}
+function writeStorage(key,value){try{localStorage.setItem(key,JSON.stringify(value));return true;}catch{return false;}}
+const rawFavorites=readStorage(favoriteKey,[]);let saved=new Set(Array.isArray(rawFavorites)?rawFavorites.filter(id=>ids.has(id)):[]);
+const rawSeen=readStorage(seenKey,{});let seen=rawSeen&&typeof rawSeen==='object'&&!Array.isArray(rawSeen)?Object.fromEntries(Object.entries(rawSeen).filter(([id,date])=>ids.has(id)&&typeof date==='string')):{};
+let autoMusic=readStorage(soundKey,true)!==false;
+let league='all',mood='all',query='',onlySaved=false,limit=9,currentId=null,toastTimer,credits={},lastTrigger=null,heroRequest=0;
+const reducedMotion=matchMedia('(prefers-reduced-motion: reduce)');
+const heart='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.7 4.8a5.6 5.6 0 0 0-7.9 0l-.8.8-.8-.8a5.6 5.6 0 0 0-7.9 7.9L12 21l8.7-8.3a5.6 5.6 0 0 0 0-7.9Z"/></svg>';
+const escapeHtml=value=>String(value).replace(/[&<>"']/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
+function toast(message){$('#toast').textContent=message;$('#toast').classList.add('visible');clearTimeout(toastTimer);toastTimer=setTimeout(()=>$('#toast').classList.remove('visible'),2600);}
+function closeDialog(dialog,immediate=false){if(!dialog.open)return;if(immediate||reducedMotion.matches){dialog.close();return;}if(dialog.classList.contains('closing'))return;dialog.classList.add('closing');setTimeout(()=>{dialog.close();dialog.classList.remove('closing');},220);}
+function openDialog(dialog){dialog.classList.remove('closing');if(!dialog.open)dialog.showModal();dialog.scrollTop=0;}
+function updateSoundPreference(){$('#sound-toggle').setAttribute('aria-pressed',String(autoMusic));$('#sound-toggle').setAttribute('aria-label',autoMusic?'关闭自动音乐':'开启自动音乐');$('#sound-pref').textContent=`自动音乐 · ${autoMusic?'开':'关'}`;}
+const audio=new MatchdayAudio(({state,message,volume,muted})=>{
+ const panel=$('#music-panel');if(!panel)return;panel.classList.toggle('playing',state==='playing'&&!muted);panel.dataset.audioState=state;
+ if(message)$('#audio-status').textContent=message;
+ $('#music-play').textContent=state==='playing'?'Ⅱ 暂停':state==='loading'?'连接中…':state==='error'?'↻ 重试':'▶ 播放';
+ $('#music-play').disabled=state==='loading'||state==='unavailable';
+ $('#music-mute').textContent=muted?'恢复声音':'静音';$('#music-mute').setAttribute('aria-pressed',String(muted));
+ $('#music-volume').value=volume;$('#volume-value').textContent=volume+'%';
 });
-$('#search').addEventListener('input', event => { query = event.target.value; limit = 6; render(); });
-$('#load-more').addEventListener('click', () => { limit = stadiums.length; render(); });
-$('#reset-filters').addEventListener('click', resetFilters);
-$('#saved-toggle').addEventListener('click', () => { onlySaved = !onlySaved; limit = stadiums.length; render(); });
-$('#nav-saved').addEventListener('click', () => { league = 'all'; query = ''; $('#search').value = ''; onlySaved = true; limit = stadiums.length; render(); $('#explore').scrollIntoView(); });
-$('.nav-explore').addEventListener('click', () => { if (onlySaved) resetFilters(); });
-$('#random-stadium').addEventListener('click', () => openStadium(stadiums[Math.floor(Math.random() * stadiums.length)].id));
-$('#close-dialog').addEventListener('click', () => $('#stadium-dialog').close());
-$('#close-credits').addEventListener('click', () => $('#credits-dialog').close());
-document.querySelectorAll('dialog').forEach(dialog => dialog.addEventListener('click', event => {
-  if (event.target !== dialog) return;
-  const rect = dialog.getBoundingClientRect();
-  if (event.clientX < rect.left || event.clientX > rect.right || event.clientY < rect.top || event.clientY > rect.bottom) dialog.close();
-}));
-
-document.querySelectorAll('[data-story]').forEach(button => button.addEventListener('click', () => {
-  const story = stories[Number(button.dataset.story)];
-  $('#story-img').src = `assets/${story.id}.jpg`;
-  $('#story-img').alt = stadiums.find(s=>s.id===story.id).name + '历史实景';
-  $('#story-image-label').textContent = story.location;
-  $('#story-kicker').textContent = story.kicker;
-  $('#story-title').innerHTML = story.title;
-  $('#story-description').textContent = story.description;
-  $('#story-read').innerHTML = `${story.link} <span>↗</span>`;
-  $('#story-read').dataset.open = story.id;
-  document.querySelectorAll('[data-story]').forEach(tab => { tab.classList.toggle('active', tab === button); tab.setAttribute('aria-pressed', String(tab === button)); });
-}));
-
-const escapeHtml = value => String(value).replace(/[&<>"']/g, char => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
-function renderCredits() {
-  $('#credits-list').innerHTML = stadiums.map(s => {
-    const c = credits[s.id];
-    if (!c) return `<article class="credit-item"><h3>${s.name}</h3><p>图片致谢暂时无法加载，请稍后重试。</p><a href="${s.source}" target="_blank" rel="noopener noreferrer">官方资料 ↗</a></article>`;
-    return `<article class="credit-item"><h3>${s.name}</h3><p>摄影：${escapeHtml(c.author)} · ${escapeHtml(c.license)}</p><p>${escapeHtml(c.title)}</p><div class="credit-links"><a href="${escapeHtml(c.source)}" target="_blank" rel="noopener noreferrer">原始图片 ↗</a>${c.licenseUrl ? `<a href="${escapeHtml(c.licenseUrl)}" target="_blank" rel="noopener noreferrer">许可条款 ↗</a>`:''}<a href="${s.source}" target="_blank" rel="noopener noreferrer">官方资料 ↗</a></div></article>`;
-  }).join('');
+function syncDetailSave(){const b=$('#detail-save');if(!b||!currentId)return;b.classList.toggle('saved',saved.has(currentId));b.setAttribute('aria-pressed',String(saved.has(currentId)));b.textContent=saved.has(currentId)?'♥ 已收藏':'♡ 收藏主场';}
+function toggleSaved(id){if(!ids.has(id))return;const was=saved.has(id);was?saved.delete(id):saved.add(id);const stored=writeStorage(favoriteKey,[...saved]);render();syncDetailSave();toast(stored?(was?'已从收藏移除':'已收藏，把心动留给下一次。'):'已更新本次收藏；当前浏览器暂不能保存。');}
+function selectedLeague(s){if(league==='all')return true;if(league==='南美')return ['阿根廷','巴西'].includes(s.country);if(league==='欧洲其他')return ['葡超','荷甲','苏超','土超'].includes(s.league);return s.league===league;}
+function card(s,i){return `<article class="stadium-card" style="--club-color:${s.color};--i:${i%9}"><div class="card-picture"><button class="card-open" data-open="${s.id}" aria-label="探索${s.name}"><img src="assets/${s.id}.jpg" alt="${s.name}真实历史影像" loading="lazy" width="720" height="464"></button><span class="league-tag">${s.league} · ${s.tag}</span><button class="save-button ${saved.has(s.id)?'saved':''}" data-save="${s.id}" aria-label="${saved.has(s.id)?'取消收藏':'收藏'}${s.name}" aria-pressed="${saved.has(s.id)}">${heart}</button><div class="card-picture-bottom"><span>${s.country} · ${s.city}</span><span class="photo-index ${seen[s.id]?'explored-badge':''}">${seen[s.id]?'✳ 已探索':String(stadiums.indexOf(s)+1).padStart(2,'0')+' / 24'}</span></div></div><div class="card-info"><div class="card-title-row"><h3><button class="card-title" data-open="${s.id}">${s.name}</button></h3><button class="card-arrow" data-open="${s.id}" aria-label="阅读${s.name}详情">↗</button></div><p class="card-en">${s.en}</p><p class="card-description">${s.description}</p><div class="card-footer"><span><i class="club-dot"></i>${s.club}</span><span class="card-year">EST. ${s.year}</span></div></div></article>`;}
+function updateProgress(){const count=Object.keys(seen).length;$('#saved-count').textContent=saved.size;$('#visited-count').textContent=count;$('#passport-preview-progress').textContent=`${String(count).padStart(2,'0')} / ${stadiums.length} GROUNDS DISCOVERED`;}
+function render(){const q=query.trim().toLocaleLowerCase();const filtered=stadiums.filter(s=>selectedLeague(s)&&(mood==='all'||s.moods.includes(mood))&&(!onlySaved||saved.has(s.id))&&(!q||[s.name,s.en,s.club,s.clubEn,s.city,s.country,s.tag,s.league,...s.moods.map(m=>moodNames[m])].join(' ').toLocaleLowerCase().includes(q)));
+ $('#stadium-grid').innerHTML=filtered.slice(0,limit).map(card).join('');$('#results-count').textContent=`${onlySaved?'我的收藏':'等待你的下一站'} · ${String(filtered.length).padStart(2,'0')} 座球场`;
+ $('#empty-state').hidden=filtered.length!==0;$('#empty-state h3').textContent=onlySaved&&!saved.size?'把第一座心动的主场，留在这里。':'换一种心动试试。';$('#empty-state p').textContent=onlySaved&&!saved.size?'点击球场右上角的爱心，开始你的清单。':'暂时没有匹配的球场，试试其他关键词或筛选。';
+ $('#load-more-wrap').hidden=limit>=filtered.length;$('#remaining-count').textContent=`已展开 ${Math.min(limit,filtered.length)} / ${filtered.length} 座主场`;
+ $('#saved-toggle').setAttribute('aria-pressed',String(onlySaved));$('#saved-toggle').textContent=onlySaved?'♥ 正在查看收藏':'♡ 只看收藏';
+ $$('[data-league]').forEach(b=>{b.classList.toggle('active',b.dataset.league===league);b.setAttribute('aria-pressed',String(b.dataset.league===league));});$$('[data-mood]').forEach(b=>{b.classList.toggle('active',b.dataset.mood===mood);b.setAttribute('aria-pressed',String(b.dataset.mood===mood));});updateProgress();
 }
-$('#credits-button').addEventListener('click', () => { renderCredits(); $('#credits-dialog').showModal(); });
-fetch('./assets/credits.json').then(response => { if (!response.ok) throw new Error('Credits unavailable'); return response.json(); }).then(data => { credits = data; if ($('#credits-dialog').open) renderCredits(); }).catch(() => {});
-window.addEventListener('storage', event => { if (event.key !== key) return; try { const value = JSON.parse(event.newValue || '[]'); if (Array.isArray(value)) { saved = new Set(value.filter(id => stadiums.some(s => s.id === id))); render(); syncDetailSave(); } } catch {} });
-render();
+function resetFilters(){league='all';mood='all';query='';onlySaved=false;limit=9;$('#search').value='';render();}
+function musicPanel(s){const t=tracks[s.id];return `<aside class="detail-side"><div class="music-panel" id="music-panel" data-audio-state="idle"><p class="eyebrow">MATCHDAY SOUND / 主场声音</p><h3>先听见，再心动。</h3><p class="track-name">${t?t.name:'这座主场的声音，待续。'}</p><p class="track-credit">${t?t.credit:s.club+' · 球队声音档案'}</p><div class="player-wrap" id="music-player"><div class="player-placeholder"><span>♫</span><p>${t?'轻声入场，感受主场的声音。':'暂未收录可内嵌的球队音乐。'}</p></div></div><div class="music-controls"><button id="music-play" ${t?'':'disabled'}>▶ 播放</button><button id="music-mute" aria-pressed="false">静音</button></div><label class="volume-control">音量<input id="music-volume" type="range" min="0" max="30" step="1" value="${audio.volume}" aria-label="背景音乐音量，最高30%"><output id="volume-value">${audio.volume}%</output></label><p class="audio-status" id="audio-status" role="status">正在准备主场声音…</p><div class="audio-wave" aria-hidden="true">${Array.from({length:22},(_,i)=>`<i style="--n:${i}"></i>`).join('')}</div><a class="music-source" href="${t?'https://www.youtube.com/watch?v='+t.id:s.source}" target="_blank" rel="noopener noreferrer">${t?'在原站收听 / 查看音乐来源':'前往俱乐部或场馆资料'} ↗</a></div></aside>`;}
+function openStadium(id){const s=stadiums.find(s=>s.id===id);if(!s)return;audio.destroy();currentId=id;const isNew=!seen[id];if(isNew){seen[id]=new Date().toLocaleDateString('sv-SE');writeStorage(seenKey,seen);}
+ $('#dialog-content').innerHTML=`<div class="detail-cover"><img src="assets/${s.id}.jpg" alt="${s.name}真实历史影像"><div class="detail-cover-caption"><p class="eyebrow">${s.country} / ${s.city} / ${s.league}</p><h2 id="detail-title">${s.name}</h2><p class="detail-en">${s.en}</p></div></div><div class="detail-layout"><div><div class="detail-actions"><button class="detail-save" id="detail-save" data-save="${s.id}"></button><span class="detail-stamp ${isNew?'stamp-new':''}">✳ ${isNew?'新印章已收集':'探索护照已盖章'}</span></div><div class="detail-beginner"><h3>第一次认识这里，先看什么？</h3><p>${s.beginner}</p></div><dl class="detail-facts"><div><dt>所在城市</dt><dd>${s.city} · ${s.country}</dd></div><div><dt>代表俱乐部</dt><dd>${s.club}</dd></div><div><dt>启用年份</dt><dd>${s.year} 年</dd></div></dl><div class="detail-story">${s.story.map(p=>'<p>'+p+'</p>').join('')}</div><blockquote class="detail-quote">${s.quote}</blockquote><p class="detail-note">影像说明：${s.note}</p><div class="detail-links"><a href="${s.source}" target="_blank" rel="noopener noreferrer">${s.sourceLabel} ↗</a>${credits[id]?`<a href="${credits[id].source}" target="_blank" rel="noopener noreferrer">影像原始来源与许可 ↗</a>`:''}</div></div>${musicPanel(s)}</div><div class="detail-nav"><button data-next="-1">← 上一座主场</button><span>${String(stadiums.indexOf(s)+1).padStart(2,'0')} / 24</span><button data-next="1">下一座主场 →</button></div>`;
+ syncDetailSave();openDialog($('#stadium-dialog'));$('#close-dialog').focus({preventScroll:true});render();audio.mount(tracks[id],{autoplay:autoMusic});
+}
+function openPassport(){updateProgress();const count=Object.keys(seen).length;$('#passport-summary').innerHTML=`<div class="passport-summary"><div><b>${count}</b><span>/ 24 已探索</span></div><div><b>${saved.size}</b><span>座已收藏</span></div></div>`;$('#passport-progress').style.width=count/stadiums.length*100+'%';$('#passport-stamps').innerHTML=stadiums.map((s,i)=>`<button class="stamp ${seen[s.id]?'discovered':''}" style="--rotation:${(i%5-2)*1.8}deg" data-passport-open="${s.id}" aria-label="${seen[s.id]?'重访':'探索'}${s.name}"><span>${s.country.toLocaleUpperCase()}</span><strong>${s.city}</strong><small>${s.name}</small><small>${seen[s.id]?'✳ '+seen[s.id]:'尚待探索 ↗'}</small></button>`).join('');openDialog($('#passport-dialog'));$('#close-passport').focus({preventScroll:true});}
+const startQuiz=setupQuiz({stadiums,dialog:$('#quiz-dialog'),onOpen:openStadium,closeDialog});
+const heroLocations={anfield:'LIVERPOOL, ENGLAND',allianz:'MUNICH, GERMANY',bombonera:'BUENOS AIRES, ARGENTINA'};
+async function switchHero(id){const s=stadiums.find(s=>s.id===id);if(!s)return;const token=++heroRequest;$$('[data-hero]').forEach(b=>{b.classList.toggle('active',b.dataset.hero===id);b.setAttribute('aria-pressed',String(b.dataset.hero===id));});const image=new Image();image.src=`assets/${id}.jpg`;try{await image.decode();}catch{return;}if(token!==heroRequest)return;const target=$('#hero-image');if(!reducedMotion.matches){await target.animate([{opacity:.82},{opacity:0}],{duration:200,fill:'forwards'}).finished;}if(token!==heroRequest)return;target.src=image.src;target.alt=s.name+'真实历史影像';$('#hero-feature').dataset.open=id;$('#hero-name').textContent=s.en;$('#hero-location').textContent=heroLocations[id];$('#hero-feature-number').textContent=String(Object.keys(heroLocations).indexOf(id)+1).padStart(2,'0');target.getAnimations().filter(a=>a.effect?.getTiming().fill==='forwards').forEach(a=>a.cancel());if(!reducedMotion.matches)target.animate([{opacity:0},{opacity:.82}],{duration:500});}
+function renderCredits(){$('#credits-list').innerHTML=stadiums.map(s=>{const c=credits[s.id],t=tracks[s.id];return `<article class="credit-item"><h3>${s.name}</h3>${c?`<p>摄影：${escapeHtml(c.author)} · ${escapeHtml(c.license)}</p><p>${escapeHtml(c.title)}</p><div class="credit-links"><a href="${escapeHtml(c.source)}" target="_blank" rel="noopener noreferrer">原始影像 ↗</a>${c.licenseUrl?`<a href="${escapeHtml(c.licenseUrl)}" target="_blank" rel="noopener noreferrer">许可条款 ↗</a>`:''}<a href="${s.source}" target="_blank" rel="noopener noreferrer">球场资料 ↗</a></div>`:'<p>影像来源暂时无法加载。</p>'}${t?`<p>音乐：${t.name} · ${t.credit} · <a href="https://www.youtube.com/watch?v=${t.id}" target="_blank" rel="noopener noreferrer">原站播放 ↗</a></p>`:'<p>球队音乐：尚未收录可内嵌音源。</p>'}</article>`;}).join('');}
+
+document.addEventListener('click',event=>{const target=event.target;
+ const open=target.closest('[data-open]');if(open){lastTrigger=open.dataset.open;openStadium(open.dataset.open);}
+ const save=target.closest('[data-save]');if(save)toggleSaved(save.dataset.save);
+ const l=target.closest('[data-league]');if(l){league=l.dataset.league;limit=9;render();}
+ const m=target.closest('[data-mood]');if(m){mood=m.dataset.mood;limit=9;render();}
+ const entry=target.closest('[data-entry]');if(entry){resetFilters();mood=entry.dataset.entry;render();$('#explore').scrollIntoView();}
+ if(target.closest('[data-quiz]'))startQuiz();
+ const next=target.closest('[data-next]');if(next&&currentId){const i=stadiums.findIndex(s=>s.id===currentId);openStadium(stadiums[(i+Number(next.dataset.next)+stadiums.length)%stadiums.length].id);}
+ const hero=target.closest('[data-hero]');if(hero)switchHero(hero.dataset.hero);
+ const stamp=target.closest('[data-passport-open]');if(stamp){closeDialog($('#passport-dialog'),true);openStadium(stamp.dataset.passportOpen);}
+ if(target.closest('#music-play'))audio.play();if(target.closest('#music-mute'))audio.toggleMute();
+});
+$('#search').addEventListener('input',event=>{query=event.target.value;limit=9;render();});$('#reset-filters').addEventListener('click',resetFilters);$('#load-more').addEventListener('click',()=>{limit+=9;render();});$('#saved-toggle').addEventListener('click',()=>{onlySaved=!onlySaved;limit=24;render();});$('#nav-saved').addEventListener('click',()=>{resetFilters();onlySaved=true;limit=24;render();$('#explore').scrollIntoView();});
+$('#random-stadium').addEventListener('click',()=>openStadium(stadiums[Math.floor(Math.random()*stadiums.length)].id));
+$('#passport-nav').addEventListener('click',openPassport);$('#passport-open').addEventListener('click',openPassport);$('#passport-preview').addEventListener('click',openPassport);
+$('#sound-toggle').addEventListener('click',()=>{autoMusic=!autoMusic;writeStorage(soundKey,autoMusic);updateSoundPreference();if(!autoMusic)audio.pause();toast(autoMusic?'自动音乐已开启。点击球场后尝试低音量播放。':'自动音乐已关闭。仍可在详情里手动播放。');});
+$('#dialog-content').addEventListener('input',event=>{if(event.target.id==='music-volume')audio.setVolume(event.target.value);});
+[['stadium','关闭球场详情'],['quiz','关闭主场测试'],['passport','关闭探索护照'],['credits','关闭来源信息']].forEach(([type])=>{const dialog=$('#'+type+'-dialog');$('#close-'+(type==='stadium'?'dialog':type)).addEventListener('click',()=>closeDialog(dialog));dialog.addEventListener('cancel',event=>{event.preventDefault();closeDialog(dialog);});dialog.addEventListener('click',event=>{if(event.target!==dialog)return;const r=dialog.getBoundingClientRect();if(event.clientX<r.left||event.clientX>r.right||event.clientY<r.top||event.clientY>r.bottom)closeDialog(dialog);});});
+$('#stadium-dialog').addEventListener('close',()=>{audio.destroy();const opener=document.querySelector(`[data-open="${lastTrigger||currentId}"]`);opener?.focus({preventScroll:true});});
+$('#credits-button').addEventListener('click',()=>{renderCredits();openDialog($('#credits-dialog'));$('#close-credits').focus({preventScroll:true});});
+fetch('./assets/credits.json').then(r=>{if(!r.ok)throw new Error('credits');return r.json();}).then(data=>{credits=data;if($('#credits-dialog').open)renderCredits();}).catch(()=>{});
+document.addEventListener('visibilitychange',()=>{if(document.hidden)audio.pause();});
+window.addEventListener('storage',event=>{if(event.key===favoriteKey){const data=readStorage(favoriteKey,[]);if(Array.isArray(data)){saved=new Set(data.filter(id=>ids.has(id)));render();syncDetailSave();}}if(event.key===seenKey){const data=readStorage(seenKey,{});if(data&&typeof data==='object'&&!Array.isArray(data)){seen=Object.fromEntries(Object.entries(data).filter(([id,date])=>ids.has(id)&&typeof date==='string'));render();}}if(event.key===soundKey){autoMusic=readStorage(soundKey,true)!==false;updateSoundPreference();if(!autoMusic)audio.pause();}});
+
+if(!reducedMotion.matches){document.documentElement.classList.add('js-motion');const observer=new IntersectionObserver(entries=>entries.forEach(entry=>{if(entry.isIntersecting){entry.target.classList.add('is-visible');observer.unobserve(entry.target);}}),{threshold:.12});$$('.reveal').forEach(element=>observer.observe(element));}
+let pointerFrame=0;$('#stadium-grid').addEventListener('pointermove',event=>{if(reducedMotion.matches||event.pointerType!=='mouse')return;const card=event.target.closest('.stadium-card');if(!card)return;cancelAnimationFrame(pointerFrame);pointerFrame=requestAnimationFrame(()=>{const r=card.getBoundingClientRect(),x=(event.clientX-r.left)/r.width-.5,y=(event.clientY-r.top)/r.height-.5;card.style.transform=`perspective(1000px) rotateX(${-y*3}deg) rotateY(${x*3}deg) translateY(-3px)`;});});$('#stadium-grid').addEventListener('pointerout',event=>{const card=event.target.closest('.stadium-card');if(card&&!card.contains(event.relatedTarget)){cancelAnimationFrame(pointerFrame);card.style.transform='';}});
+$('.hero').addEventListener('pointermove',event=>{if(reducedMotion.matches||event.pointerType!=='mouse')return;$('.hero-glow').style.setProperty('--mx',event.offsetX+'px');$('.hero-glow').style.setProperty('--my',event.clientY+'px');});
+let scrollFrame=0;window.addEventListener('scroll',()=>{if(scrollFrame)return;scrollFrame=requestAnimationFrame(()=>{const total=document.documentElement.scrollHeight-innerHeight;$('#reading-progress').style.width=(total>0?scrollY/total*100:0)+'%';scrollFrame=0;});},{passive:true});
+render();updateSoundPreference();

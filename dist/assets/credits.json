@@ -78,5 +78,117 @@
     "licenseUrl": "https://creativecommons.org/licenses/by/3.0",
     "source": "https://commons.wikimedia.org/wiki/File:Turin_Juventus_Stadium_1.jpg",
     "date": ""
+  },
+  "stamfordbridge": {
+    "title": "London Stamford Bridge 2.jpg",
+    "author": "Валерий Дед",
+    "license": "CC BY 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by/3.0",
+    "source": "https://commons.wikimedia.org/wiki/File:London_Stamford_Bridge_2.jpg",
+    "date": ""
+  },
+  "etihad": {
+    "title": "City of Manchester Stadium, October 2015 - 01.JPG",
+    "author": "Little Savage",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "source": "https://commons.wikimedia.org/wiki/File:City_of_Manchester_Stadium,_October_2015_-_01.JPG",
+    "date": "2015-10-26 01:06:52"
+  },
+  "metropolitano": {
+    "title": "Estadio Metropolitano - Madrid 008.jpg",
+    "author": "Américo Toledano",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Estadio_Metropolitano_-_Madrid_008.jpg",
+    "date": "2021-07-10 14:14:53"
+  },
+  "dragao": {
+    "title": "Estadio do Dragao 20050805.jpg",
+    "author": "Zero",
+    "license": "CC BY-SA 3.0",
+    "licenseUrl": "http://creativecommons.org/licenses/by-sa/3.0/",
+    "source": "https://commons.wikimedia.org/wiki/File:Estadio_do_Dragao_20050805.jpg",
+    "date": "2005-08-05"
+  },
+  "tottenham": {
+    "title": "Tottenham Hotspur Stadium.jpg",
+    "author": "Stadium spotter",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Tottenham_Hotspur_Stadium.jpg",
+    "date": "2024-06-12"
+  },
+  "galatasaray": {
+    "title": "Ali Sami Yen Spor Kompleksi Türk Telekom Arena.jpg",
+    "author": "Qwl",
+    "license": "Public domain",
+    "licenseUrl": "",
+    "source": "https://commons.wikimedia.org/wiki/File:Ali_Sami_Yen_Spor_Kompleksi_T%C3%BCrk_Telekom_Arena.jpg",
+    "date": "2011-01-15"
+  },
+  "cruyff": {
+    "title": "Johan Cruijff Arena.jpg",
+    "author": "Scottbrl90",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Johan_Cruijff_Arena.jpg",
+    "date": "2017-06-07"
+  },
+  "luz": {
+    "title": "Estádio da Luz - Lisboa2.jpg",
+    "author": "Vitor Oliveira from Torres Vedras, PORTUGAL",
+    "license": "CC BY 2.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by/2.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Est%C3%A1dio_da_Luz_-_Lisboa2.jpg",
+    "date": "2005-12-17 12:01"
+  },
+  "feyenoord": {
+    "title": "Feyenoord Rotterdam's De Kuip stadium in 2022 before a match against FC Emmen.jpg",
+    "author": "Vincenzo.togni",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Feyenoord_Rotterdam%27s_De_Kuip_stadium_in_2022_before_a_match_against_FC_Emmen.jpg",
+    "date": "2022-08-27 19:47:52"
+  },
+  "celtic": {
+    "title": "Celtic park panorama.jpg",
+    "author": "Guillaume Gogo",
+    "license": "CC BY 2.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by/2.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Celtic_park_panorama.jpg",
+    "date": "2016-08-27 14:00"
+  },
+  "bombonera": {
+    "title": "La Bombonera - Buenos Aires - Argentina.jpg",
+    "author": "Diego Delso",
+    "license": "CC BY-SA 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+    "source": "https://commons.wikimedia.org/wiki/File:La_Bombonera_-_Buenos_Aires_-_Argentina.jpg",
+    "date": "2008-11-01"
+  },
+  "maracana": {
+    "title": "Maracanã stadium.jpg",
+    "author": "Leandro Neumann Ciuffo",
+    "license": "CC BY 2.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by/2.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Maracan%C3%A3_stadium.jpg",
+    "date": "2013-06-16 16:30:42"
+  },
+  "napoli": {
+    "title": "Stadio Diego Armando Maradona 2022 (1).jpg",
+    "author": "Joris",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Stadio_Diego_Armando_Maradona_2022_(1).jpg",
+    "date": "2022-07-18 14:09:06"
+  },
+  "monumental": {
+    "title": "River Plate FC Monumental Stadium panorama.jpg",
+    "author": "Innoverdrive",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "source": "https://commons.wikimedia.org/wiki/File:River_Plate_FC_Monumental_Stadium_panorama.jpg",
+    "date": "2016-08-25"
   }
 }

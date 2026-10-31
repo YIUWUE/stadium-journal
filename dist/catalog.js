@@ -1,0 +1,7 @@
+import { stadiums as original } from './data.js';
+import { extraStadiums } from './extra-data.js';
+const moods={bernabeu:['architecture','history'],campnou:['history','atmosphere'],anfield:['atmosphere','history'],allianz:['architecture'],sansiro:['architecture','history'],oldtrafford:['history'],dortmund:['atmosphere'],paris:['architecture','city'],emirates:['city','history'],juventus:['architecture'],etihad:['architecture','city'],tottenham:['architecture'],stamfordbridge:['history','city'],metropolitano:['architecture','atmosphere'],dragao:['architecture'],luz:['atmosphere','city'],galatasaray:['atmosphere'],cruyff:['architecture','history'],feyenoord:['atmosphere','history'],celtic:['atmosphere','history'],bombonera:['atmosphere','city'],monumental:['atmosphere','history'],maracana:['history','city'],napoli:['city','history']};
+const beginner={bernabeu:'先看层层叠起的看台，再想象白色围巾一起扬起的瞬间。',campnou:'不用认识球星，红蓝色与城市之间的联系就值得看一看。',anfield:'先听一首歌，再认识一支球队。Kop 是这座球场著名的看台名称。',allianz:'从外立面的发光“气垫”开始，足球建筑也可以很有未来感。',sansiro:'同一个主场，两种球衣颜色；这是认识同城对手文化的好起点。',oldtrafford:'梦剧场是球迷给它的昵称。想象一下，第一次走出通道看到草地。',dortmund:'“黄墙”不是一面真正的墙，而是南看台黄黑色球迷组成的人海。',paris:'换一种方式认识巴黎：从混凝土曲线与看台合唱开始。',emirates:'从海布里搬到酋长球场，是关于“换了新家，怎样仍像家”的故事。',juventus:'看看紧凑的看台如何拉近观众与草地的距离。'};
+export const stadiums=[...original,...extraStadiums].map(s=>({...s,moods:moods[s.id]||['city'],beginner:beginner[s.id]||s.story[1]}));
+export const countries=[...new Set(stadiums.map(s=>s.country))];
+export const moodNames={all:'全部心动',atmosphere:'声浪与氛围',architecture:'建筑与未来',history:'传奇与记忆',city:'城市与文化'};
