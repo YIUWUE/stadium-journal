@@ -13,3 +13,7 @@ replacement-metadata.json
 extra-exact.json
 wiki-candidates.json
 docs/*contact-sheet.jpg
+
+.playwright-cli/
+.playwright/
+output/playwright/

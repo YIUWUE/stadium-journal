@@ -1,0 +1,154 @@
+{
+  "马德里": {
+    "src": "assets/cities/madrid.jpg",
+    "author": "Tim Adams",
+    "license": "CC BY 2.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by/2.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Skyline_view_of_Madrid,_Spain_at_night_-_50317258357.jpg",
+    "description": "从马德里塔俯瞰城市灯火与格兰大道的夜景。 Wikimedia Commons 展示缩略图，保留原始照片许可。"
+  },
+  "巴塞罗那": {
+    "src": "assets/cities/barcelona.jpg",
+    "author": "Jcca76",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Barcelona_desde_El_Carmel_(1).JPG",
+    "description": "从 El Carmel 俯瞰巴塞罗那城市夜景。 Wikimedia Commons 展示缩略图，保留原始照片许可。"
+  },
+  "利物浦": {
+    "src": "assets/cities/liverpool.jpg",
+    "author": "CharlieCLC~commonswiki",
+    "license": "CC0",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/deed.en",
+    "source": "https://commons.wikimedia.org/wiki/File:Museum_of_Liverpool_Night_East_Facade.jpg",
+    "description": "利物浦博物馆外立面与夜间城市空间。 Wikimedia Commons 展示缩略图，保留原始照片许可。"
+  },
+  "慕尼黑": {
+    "src": "assets/cities/munich.jpg",
+    "author": "Martin Falbisoner",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Frauenkirche_Munich,_March_2018.jpg",
+    "description": "暮色中的慕尼黑圣母教堂与城市屋顶。 Wikimedia Commons 展示缩略图，保留原始照片许可。"
+  },
+  "米兰": {
+    "src": "assets/cities/milan.jpg",
+    "author": "Mattsjc",
+    "license": "CC BY 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by/4.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Duomo_in_Milan_at_night_01.jpg",
+    "description": "夜间灯光照亮的米兰大教堂。 Wikimedia Commons 展示缩略图，保留原始照片许可。"
+  },
+  "曼彻斯特": {
+    "src": "assets/cities/manchester.jpg",
+    "author": "Anthony Parkes",
+    "license": "CC BY-SA 2.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Manchester_at_Night_-_geograph.org.uk_-_5717661.jpg",
+    "description": "曼彻斯特市中心的城市灯火。 Wikimedia Commons 展示缩略图，保留原始照片许可。"
+  },
+  "多特蒙德": {
+    "src": "assets/cities/dortmund.jpg",
+    "author": "Holger H.",
+    "license": "CC BY 2.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by/2.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Dortmund.jpg",
+    "description": "多特蒙德城市夜景。 Wikimedia Commons 展示缩略图，保留原始照片许可。"
+  },
+  "伦敦": {
+    "src": "assets/cities/london.jpg",
+    "author": "Diliff",
+    "license": "CC BY-SA 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Tower_Bridge_London_Dusk_Feb_2006.jpg",
+    "description": "暮色中的伦敦塔桥与泰晤士河。 Wikimedia Commons 展示缩略图，保留原始照片许可。"
+  },
+  "都灵": {
+    "src": "assets/cities/turin.jpg",
+    "author": "rene boulay",
+    "license": "CC BY-SA 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Turin_Piazza_San_Carlo_Via_Roma_-_panoramio.jpg",
+    "description": "都灵圣卡洛广场与罗马街的夜景。 Wikimedia Commons 展示缩略图，保留原始照片许可。"
+  },
+  "波尔图": {
+    "src": "assets/cities/porto.jpg",
+    "author": "Michael Gaylard from Horsham, UK",
+    "license": "CC BY 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by/4.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Porto_by_Night_Ribeira_Waterfront_and_Douro_River_Reflections_(55245781032).jpg",
+    "description": "波尔图杜罗河畔的夜景与城市灯火倒影。 Wikimedia Commons 展示缩略图，保留原始照片许可。"
+  },
+  "巴黎": {
+    "src": "assets/cities/paris.jpg",
+    "author": "Ninara",
+    "license": "CC BY 2.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by/2.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Seine_River_in_Paris_at_night_(51689812889).jpg",
+    "description": "巴黎塞纳河畔的夜景。 Wikimedia Commons 展示缩略图，保留原始照片许可。"
+  },
+  "里斯本": {
+    "src": "assets/cities/lisbon.jpg",
+    "author": "Fredericknoronha",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Lisbon_by_night,_Portugal._The_Rossio_area.jpg",
+    "description": "里斯本罗西奥地区的城市夜景。 Wikimedia Commons 展示缩略图，保留原始照片许可。"
+  },
+  "伊斯坦布尔": {
+    "src": "assets/cities/istanbul.jpg",
+    "author": "SeablueTravelOfficial",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Istanbul-skyline-night-reflection.jpg",
+    "description": "伊斯坦布尔海峡沿岸的城市灯火。 Wikimedia Commons 展示缩略图，保留原始照片许可。"
+  },
+  "阿姆斯特丹": {
+    "src": "assets/cities/amsterdam.jpg",
+    "author": "Kham Tran - www.khamtran.com",
+    "license": "CC BY-SA 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Canal-In-Amsterdam-At-Night-2009.jpg",
+    "description": "阿姆斯特丹运河与沿岸建筑夜景。 Wikimedia Commons 展示缩略图，保留原始照片许可。"
+  },
+  "鹿特丹": {
+    "src": "assets/cities/rotterdam.jpg",
+    "author": "Edwin van Buuringen",
+    "license": "CC BY 2.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by/2.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Night_in_Rotterdam.jpg",
+    "description": "鹿特丹夜间街景与车流光轨。 Wikimedia Commons 展示缩略图，保留原始照片许可。"
+  },
+  "格拉斯哥": {
+    "src": "assets/cities/glasgow.jpg",
+    "author": "Giuseppe Milo",
+    "license": "CC BY 2.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by/2.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Clyde_Arc_at_night.jpg",
+    "description": "格拉斯哥克莱德河与 Clyde Arc 桥夜景。 Wikimedia Commons 展示缩略图，保留原始照片许可。"
+  },
+  "布宜诺斯艾利斯": {
+    "src": "assets/cities/buenos-aires.jpg",
+    "author": "Aleksandrs Timofejev…",
+    "license": "CC BY 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by/3.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Buenos_Aires_night_-_panoramio.jpg",
+    "description": "布宜诺斯艾利斯马德罗港的城市夜景。 Wikimedia Commons 展示缩略图，保留原始照片许可。"
+  },
+  "里约热内卢": {
+    "src": "assets/cities/rio-de-janeiro.jpg",
+    "author": "Wilfredor",
+    "license": "CC0",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/deed.en",
+    "source": "https://commons.wikimedia.org/wiki/File:Rio_de_Janeiro_skyline_and_Sugarloaf_Mountain_at_sunset,_Brazil_3.jpg",
+    "description": "日落时的里约热内卢城市、海湾与山峦。 Wikimedia Commons 展示缩略图，保留原始照片许可。"
+  },
+  "那不勒斯": {
+    "src": "assets/cities/naples.jpg",
+    "author": "Furkan Akkurt",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Castel_Nuovo_at_night_Naples_2024.jpg",
+    "description": "那不勒斯新堡的夜景。 Wikimedia Commons 展示缩略图，保留原始照片许可。"
+  }
+}

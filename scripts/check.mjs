@@ -4,14 +4,12 @@ import { stadiums, countries } from '../dist/catalog.js';
 import { tracks } from '../dist/ambient.js';
 import { modelProfiles } from '../dist/model-profiles.js';
 import { detailedModels } from '../dist/detailed-models.js';
-import {groupCities,fitProjection,countryMapMarkup} from '../dist/country-atlas.js';
-import * as THREE from '../dist/vendor/three/three.module.js';
-import { groundPositions, atlasRegions, regionGeometry } from '../dist/stadium-atlas.js';
+import {clubMarks} from '../dist/club-gallery.js';
 for (const file of readdirSync('dist').filter(file => file.endsWith('.js'))) {
   const result = spawnSync(process.execPath, ['--check', `dist/${file}`], { encoding: 'utf8', windowsHide: true });
   if (result.status !== 0) throw new Error(result.stderr || `Syntax check failed: ${file}`);
 }
-if(!existsSync('dist/assets/earth-regions.json')||!existsSync('dist/assets/earth-land.json')||!existsSync('dist/atlas.css')) throw new Error('Missing globe resources');
+if(!existsSync('dist/club-experience.css')) throw new Error('Missing club experience stylesheet');
 const credits = JSON.parse(readFileSync('dist/assets/credits.json', 'utf8'));
 for (const file of ['three.module.js', 'three.core.js', 'OrbitControls.js', 'LICENSE']) {
   if (!existsSync(`dist/vendor/three/${file}`)) throw new Error(`Missing local 3D dependency: ${file}`);
@@ -27,47 +25,20 @@ for (const s of stadiums) {
   if (track.src && (new URL(track.src).protocol!=='https:' || !/\.(mp3|m4a)(?:\?|$)/.test(track.src))) throw new Error(`Invalid pure-audio source: ${s.id}`);
   const model=detailedModels[s.id];
   if(model && (!model.author || !model.uid || !model.faces || new URL(model.embed).hostname!=='sketchfab.com')) throw new Error(`Invalid authored model metadata: ${s.id}`);
-  const position=groundPositions[s.id];
-  if(!position||position.length!==2||!position.every(Number.isFinite)||Math.abs(position[0])>90||Math.abs(position[1])>180) throw new Error(`Invalid atlas coordinate: ${s.id}`);
   if (!modelProfiles[s.id]?.feature) throw new Error(`Missing model profile: ${s.id}`);
   if (!s.story?.length || !s.beginner || !s.moods?.length) throw new Error(`Incomplete stadium content: ${s.id}`);
   if (new URL(s.source).protocol !== 'https:') throw new Error(`Invalid reference URL: ${s.id}`);
 }
-console.log(`Checks passed: ${stadiums.length} stadiums, ${countries.length} countries, ${Object.keys(tracks).length} audio records, ${Object.keys(detailedModels).length} authored models, 24 atlas positions and detailed architectural profiles.`);
+console.log(`Checks passed: ${stadiums.length} stadiums, ${countries.length} countries, ${Object.keys(tracks).length} audio records, ${Object.keys(detailedModels).length} authored models, 24 club identities and detailed architectural profiles.`);
 
-const regions=JSON.parse(readFileSync('dist/assets/earth-regions.json','utf8'));
-const earth=new THREE.Mesh(new THREE.SphereGeometry(1,96,64),new THREE.MeshBasicMaterial());earth.updateMatrixWorld();
-for(const info of atlasRegions){
- const data=regions.find(r=>r.id===info.id);if(!data)throw Error('Missing region '+info.id);
- const {surface,border}=regionGeometry(data.polygons),positions=surface.getAttribute('position');
- for(let i=0;i<positions.count;i++){
-  const v=new THREE.Vector3().fromBufferAttribute(positions,i);
-  if(!Number.isFinite(v.length())||Math.abs(v.length()-1.004)>.0001)throw Error('Invalid region surface '+info.id);
- }
- const mesh=new THREE.Mesh(surface,new THREE.MeshBasicMaterial({side:THREE.DoubleSide}));mesh.updateMatrixWorld();
- const [lat,lon]=info.center.map(d=>d*Math.PI/180),normal=new THREE.Vector3(Math.cos(lat)*Math.cos(lon),Math.sin(lat),-Math.cos(lat)*Math.sin(lon));
- const ray=new THREE.Raycaster(normal.clone().multiplyScalar(3),normal.clone().negate());
- const hits=ray.intersectObjects([earth,mesh]);if(hits[0]?.object!==mesh)throw Error('Region not clickable '+info.id);
- const back=new THREE.Raycaster(normal.clone().multiplyScalar(-3),normal);if(back.intersectObjects([earth,mesh])[0]?.object!==earth)throw Error('Backside region not occluded '+info.id);
- surface.dispose();border.dispose();mesh.material.dispose();
+const cityCredits=JSON.parse(readFileSync('dist/assets/city-credits.json','utf8'));
+for(const stadium of stadiums){
+ if(!clubMarks[stadium.id]||clubMarks[stadium.id].length!==3)throw Error('Missing club identity '+stadium.id);
+ const city=cityCredits[stadium.city];
+ if(!city?.src?.startsWith('assets/cities/')||!existsSync('dist/'+city.src)||!city.author||!city.license||!city.licenseUrl||!city.source)throw Error('Missing city image or attribution: '+stadium.city);
+ if(new URL(city.source).protocol!=='https:'||new URL(city.licenseUrl).protocol!=='https:')throw Error('Invalid city source: '+stadium.city);
 }
-for(const s of stadiums)if(atlasRegions.filter(r=>r.countries.includes(s.country)).length!==1)throw Error('Ambiguous region '+s.id);
-for(const file of ['earth_atmos_2048.jpg','earth_normal_2048.jpg','earth_specular_2048.jpg'])if(!existsSync('dist/assets/'+file))throw Error('Missing relief texture '+file);
-console.log('Regional geometry, front/back hit detection, 24-stadium membership and relief assets passed.');
-
-for(const region of atlasRegions){
- const members=stadiums.filter(s=>region.countries.includes(s.country)),cities=groupCities(members,groundPositions),data=regions.find(r=>r.id===region.id);
- if(cities.reduce((n,c)=>n+c.members.length,0)!==members.length)throw Error('Missing city membership '+region.id);
- for(const width of [335,800]){
-  const html=countryMapMarkup(region,data,members,groundPositions,width);
-  if(/NaN|Infinity|undefined/.test(html))throw Error('Invalid city map projection '+region.id);
-  for(const city of cities)if(!html.includes(`data-city-light="${city.name}"`))throw Error('Missing automatic city '+city.name);
-  for(const stadium of members)if(!html.includes(`data-atlas-open="${stadium.id}"`))throw Error('Missing direct map entry '+stadium.id);
- }
-}
-const madrid=groupCities(stadiums.filter(s=>s.city==='马德里'),groundPositions)[0];
-if(madrid.members.length!==2)throw Error('Madrid should expose both stadiums');
-const project=fitProjection(madrid.members.map(s=>groundPositions[s.id]),260,112,20).project;
-const bernabeu=project(groundPositions.bernabeu),metropolitano=project(groundPositions.metropolitano);
-if(!(bernabeu[0]<metropolitano[0]&&bernabeu[1]<metropolitano[1]))throw Error('Madrid stadium orientation incorrect');
-console.log('Country-to-city maps, all direct stadium entries, mobile projections and Madrid stadium separation passed.');
+const index=readFileSync('dist/index.html','utf8'),app=readFileSync('dist/app.js','utf8');
+if(/atlas-stage|country-map|stadium-atlas|country-atlas/.test(index+app))throw Error('Old map flow remains active');
+if(!index.includes('arrival-hero')||!index.includes('club-stage'))throw Error('Missing opening or one-screen selection');
+console.log('Atmospheric opening, direct club selection and licensed city images cover all 24 stadiums.');
