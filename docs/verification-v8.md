@@ -21,3 +21,5 @@
 npm run check covers all script syntax, 24 distinct stadium identities, all photo/model/audio records, original navigation marks, city image/source coverage and removal of the old map flow. Desktop opening and selector, plus phone opening and selector, were captured and visually inspected. Test outputs are ignored under output/playwright/.
 
 Existing browser storage keys, model author/edition labels, music sources and low-volume mute behavior are preserved. Third-party model/audio availability remains controlled by its publisher; local reconstructions remain architectural interpretations rather than surveyed files.
+
+- Final opening CTA lands directly on the club stage. Desktop check confirms the entire identity rail is visible without another vertical scroll; the compact filter link returns to the tools above.

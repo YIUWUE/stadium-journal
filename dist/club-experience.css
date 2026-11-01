@@ -10,3 +10,6 @@ html{scroll-behavior:auto}body{background:#080e12;color:#e6e9e4}.header{backgrou
 .header .brand-mark{background:transparent;color:#d2ff67;border:1px solid #bfd69b6b;border-radius:50%;font-size:25px}
 .club-city-image{opacity:.8;filter:saturate(.65) brightness(.95)}
 @media(max-width:650px){.club-enter{min-height:44px}.header nav button{min-height:40px}.club-rail-heading button{width:36px;height:36px}}
+.club-stage{height:calc(100svh - 88px);min-height:600px;max-height:800px;scroll-margin-top:86px}.club-tools{scroll-margin-top:92px}.club-filter-jump{font-size:9px;color:#9bb08e;letter-spacing:0;margin-left:20px;min-height:26px}.club-filter-jump:hover{color:#d2ff67}
+@media(max-width:650px){.club-stage{height:calc(100svh - 80px);min-height:640px;max-height:780px;scroll-margin-top:65px}.club-tools{scroll-margin-top:80px}.club-filter-jump{font-size:8px;margin-left:13px}}
+.club-stage,.club-tools{scroll-margin-top:0}
