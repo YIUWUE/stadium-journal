@@ -1,11 +1,11 @@
 {
   "name": "beyond-the-stands",
-  "version": "8.0.0",
+  "version": "9.0.0",
   "private": true,
   "type": "module",
   "description": "看台之外 · 足球场影像与故事展示",
   "scripts": {
     "dev": "node server.mjs",
-    "check": "node scripts/check.mjs"
+    "check": "node scripts/check.mjs && node scripts/check-team-match.mjs"
   }
 }
